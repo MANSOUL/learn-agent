@@ -19,7 +19,7 @@ def run_agent(user_message: str, max_iterations: int = 5):
 
     Args：
         user_message：用户输入的消息。
-        max_iterations：最大工具调用论述，防止无限循环
+        max_iterations：最大工具调用轮数，防止无限循环
 
     Returns：
         Agent 的最终回答。
