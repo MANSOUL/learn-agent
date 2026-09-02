@@ -16,12 +16,12 @@ MODEL = os.getenv("LLM_MODEL", "gpt-5.6-terra")
 
 class PlanExecuteAgent:
     """
-    ReAct Agent 实现 - 最经典的 Agent 模式
+    Plan Execute 实现
     """
 
     def __init__(self, system_prompt: Optional[str] = None):
         """
-        初始化ReAct Agent
+        初始化Plan Execute
 
         Args:
             system_prompt: 自定义系统提示词
