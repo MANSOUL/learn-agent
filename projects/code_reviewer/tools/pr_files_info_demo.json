@@ -1,0 +1,14 @@
+[
+  {
+    "sha": "5ee3f2c3f32322ee3dd8381e9faec213cc924adb",
+    "filename": "projects/assistant/tools/tools_map.py",
+    "status": "modified",
+    "additions": 2,
+    "deletions": 1,
+    "changes": 3,
+    "blob_url": "https://github.com/MANSOUL/learn-agent/blob/b0f04e928ebd6bd2d9e06c827f99f255ceab9d65/projects%2Fassistant%2Ftools%2Ftools_map.py",
+    "raw_url": "https://github.com/MANSOUL/learn-agent/raw/b0f04e928ebd6bd2d9e06c827f99f255ceab9d65/projects%2Fassistant%2Ftools%2Ftools_map.py",
+    "contents_url": "https://api.github.com/repos/MANSOUL/learn-agent/contents/projects%2Fassistant%2Ftools%2Ftools_map.py?ref=b0f04e928ebd6bd2d9e06c827f99f255ceab9d65",
+    "patch": "@@ -1,4 +1,5 @@\n-from .weather import get_weather, SCHEMA as get_weather_schema\n+from .weather import get_weather\n+# , SCHEMA as get_weather_schema\n from .search import search_web\n \n # TOOLS = [get_weather_schema]"
+  }
+]
