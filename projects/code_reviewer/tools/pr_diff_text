@@ -1,0 +1,11 @@
+diff --git a/projects/assistant/tools/tools_map.py b/projects/assistant/tools/tools_map.py
+index a2fb0ff..5ee3f2c 100644
+--- a/projects/assistant/tools/tools_map.py
++++ b/projects/assistant/tools/tools_map.py
+@@ -1,4 +1,5 @@
+-from .weather import get_weather, SCHEMA as get_weather_schema
++from .weather import get_weather
++# , SCHEMA as get_weather_schema
+ from .search import search_web
+ 
+ # TOOLS = [get_weather_schema]
