@@ -24,6 +24,20 @@ def parse_pr_url(url: str) -> tuple[str, str, int]:
         raise ValueError(f"无效的 PR URL：${url}")
     return m.group(1), m.group(2), m.group(3)
 
+def get_pr_info_json(url: str) -> dict:
+    owner, repo, pr_number = parse_pr_url(url)
+    
+    # 获取 pr 信息
+    resp = requests.get(
+        f"{GITHUB_API}/repos/{owner}/{repo}/pulls/{pr_number}",
+        headers=_get_request_headers(),
+        timeout=15,
+    )
+    resp.raise_for_status()  # 非 2xx 抛 HTTPError
+    data = resp.json()
+
+    return data
+
 
 @tool
 def get_pr_info(url: str) -> str:
