@@ -145,7 +145,7 @@ def get_pr_diff(url: str, start_file_index: int = 0, max_lines: int = 3000) -> s
     total_lines = 0
     files_in_this_batch = 0
 
-    for f in enumerate(chunk_files):
+    for f in chunk_files:
         flines = f.count("\n")
         if total_lines + flines > max_lines:
             break
@@ -253,16 +253,16 @@ def post_pr_comment(url: str, body: str) -> str:
 if __name__ == "__main__":
     # print(parse_pr_url("https://github.com/MANSOUL/learn-agent/pull/1"))
     # print(get_pr_info("https://github.com/MANSOUL/learn-agent/pull/1"))
-    # print(get_pr_diff("https://github.com/MANSOUL/learn-agent/pull/1"))
-    # print(
-    #     read_file_at_pr.invoke({
-    #         "url": "https://github.com/MANSOUL/learn-agent/pull/1",
-    #         "file_path":"projects/assistant/tools/tools_map.py",
-    #     })
-    # )
+    # print(get_pr_diff.invoke({"url": "https://github.com/MANSOUL/learn-agent/pull/2"}))
     print(
-        post_pr_comment.invoke({
-            "url": "https://github.com/MANSOUL/learn-agent/pull/1",
-            "body": "test1",
+        read_file_at_pr.invoke({
+            "url": "https://github.com/MANSOUL/learn-agent/pull/2",
+            "file_path":"projects/assistant/tools/tools_map.py",
         })
     )
+    # print(
+    #     post_pr_comment.invoke({
+    #         "url": "https://github.com/MANSOUL/learn-agent/pull/1",
+    #         "body": "test1",
+    #     })
+    # )

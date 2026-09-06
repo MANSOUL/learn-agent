@@ -28,5 +28,7 @@ REVIEW_PROMPT = (
     "如 diff 上下文不足,可调用 read_file_at_pr 读取完整文件。\n\n"
     '不要返回markdown，仅返回正确严格的JSON格式: {{"issues":[{{"severity":"critical|high|medium|low","file":"路径","line":"行号",'
     '"title":"标题","description":"说明","suggestion":"建议"}}],"summary":"整体评价"}}\n'
-    '无问题则返回 {{"issues":[],"summary":"未发现明显问题"}}'
+    '1、无问题则返回 {{"issues":[],"summary":"未发现明显问题"}}\n'
+    "2、只报告 diff 中新增或修改代码的问题\n"
+    "3、 严重程度:critical(必须修) > high(建议修) > medium(可选) > low(建议)"
 )

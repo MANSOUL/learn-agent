@@ -9,6 +9,8 @@ SUPERVISOR_SYSTEM = """你是 PR Review 团队的主管。你的任务是:
 1. 调用 get_pr_info 获取 PR 元数据
 2. 调用 get_pr_diff 获取变更 diff
 
+如果 diff 返回"还有剩余文件",请继续调用 get_pr_diff 并传正确的 start_file_index,
+直到看到"所有文件已展示完毕"再输出审查结果
 不要做审查工作。"""
 
 def supervisor_node(state: PrReviewState) -> PrReviewState:

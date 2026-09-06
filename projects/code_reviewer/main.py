@@ -49,9 +49,7 @@ def main():
     # 编译图
     agent = workflow.compile()
 
-    initial_state = {
-        "pr_url": "https://github.com/MANSOUL/learn-agent/pull/1"
-    }
+    initial_state = {"pr_url": "https://github.com/MANSOUL/learn-agent/pull/2"}
 
     agent.invoke(initial_state)
 
