@@ -151,15 +151,17 @@ def get_pr_diff(url: str, file_filter: str = None, max_lines: int = 3000) -> str
 
 
 @tool
-def read_file_at_pr(url: str, file_path: str) -> str:
-    """读取 PR 分支上某个文件的完整内容
+def read_file_at_pr(url: str, file_path: str, offset: int = 0, limit: int = 200) -> str:
+    """读取 PR 分支上某个文件的指定行范围
 
     Args:
         url: PR URL
-        file_path: 文件路径 如 projects/assistant/tools/tools_map.py
+        file_path: 文件相对路径 如 projects/assistant/tools/tools_map.py
+        offset: 起始行号，从 0 开始，默认 0
+        limit: 读取行数，默认 200，最大 500
     
     Returns:
-        文件内容
+        指定行范围的文件内容，带行号
     """
 
     owner, repo, pr_number = parse_pr_url(url)
@@ -169,7 +171,6 @@ def read_file_at_pr(url: str, file_path: str) -> str:
         headers=_get_request_headers(),
         timeout=15,
     )
-
     pr_info = resp.json()
     pr_ref = pr_info["head"]["ref"]
 
@@ -179,6 +180,7 @@ def read_file_at_pr(url: str, file_path: str) -> str:
         headers=_get_request_headers(),
         timeout=15,
     )
+
     if r.status_code != 200:
         return f"读取文件失败：{r.status_code}"
     content_data = r.json()
@@ -186,10 +188,18 @@ def read_file_at_pr(url: str, file_path: str) -> str:
         "utf-8", errors="replace"
     )
     lines = content.splitlines()
-    if len(lines) > 500:
-        content = "\n".join(lines[:500]) + f"\n...(共 {len(lines)} 行，已截断)"
-    # print(f"文件：{file_path} @ {ref}\n{content}")
-    return f"文件：{file_path} @ {pr_ref}\n{content}"
+    total = len(lines)
+
+    # 限制单次最多 500 行
+    limit = min(limit, 500)
+    end = min(offset + limit, total)
+    chunk = lines[offset:end]
+
+    # if len(lines) > 500:
+    #     content = "\n".join(lines[:500]) + f"\n...(共 {len(lines)} 行，已截断)"
+    numbered = "\n".join(f"{i+offset+1:>5}| {line}" for i, line in enumerate(chunk))
+    return (f"文件：{file_path} @ {pr_ref} (共 {total} 行)\n"
+            f"显示第 {offset+1}-{end} 行:\n{numbered}")
 
 
 @tool
