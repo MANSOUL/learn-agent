@@ -15,3 +15,5 @@ chunk = ["a", "b", "c"]
 
 numbered = "\n".join(f"{i+1:>5}| {line}" for i, line in enumerate(chunk))
 print(numbered)
+
+print(chunk[1:])

@@ -110,15 +110,17 @@ def get_pr_info(url: str) -> str:
 
 
 @tool
-def get_pr_diff(url: str, file_filter: str = None, max_lines: int = 3000) -> str:
-    """获取 PR diff的内容
+def get_pr_diff(url: str, start_file_index: int = 0, max_lines: int = 3000) -> str:
+    """分批获取 PR diff的内容。
 
     Args:
         url: PR URL
-
+        start_file_index: 从第几个文件开始获取(从 0 开始)
+        max_lines: 本批最多多少行，默认 3000
     Returns:
-        PR diff的内容
+        指定开始文件后的 PR diff的内容
     """
+
     owner, repo, pr_number = parse_pr_url(url)
 
     # 获取 PR 所有的变化，变化以
@@ -134,20 +136,41 @@ def get_pr_diff(url: str, file_filter: str = None, max_lines: int = 3000) -> str
     # print(diff)
     # 按文件切分
     files = re.split(r"(?=^diff --git )", diff, flags=re.M)
-    if file_filter:
-        files = [f for f in files if file_filter in f]
+    files = [f for f in files if f.strip()]
+
+    total_files = len(files)
+    chunk_files = files[start_file_index:]
 
     parts = []
     total_lines = 0
-    for f in files:
+    files_in_this_batch = 0
+
+    for f in enumerate(chunk_files):
         flines = f.count("\n")
         if total_lines + flines > max_lines:
-            parts.append(f"...[diff 已截断，剩余 {len(files)-len(parts)} 个文件未展示]")
             break
         parts.append(f)
         total_lines += flines
+        files_in_this_batch += 1
 
-    return "\n".join(parts)
+    # 计算下一批的起始索引
+    next_index = start_file_index + files_in_this_batch
+    has_more = next_index < total_files
+
+    header = (
+        f"共 {total_files} 个文件，第 {start_file_index+1}-{next_index} 个文件:\n"
+    )
+    body = "\n".join(parts)
+
+    if has_more:
+        footer = (
+            f"\n\n...[还有 {total_files - next_index} 个文件未展示]"
+            f"请继续调用 get_pr_diff,参数 start_file_index={next_index}"
+        )
+    else:
+        footer = "\n\n【所有文件已展示完毕】"
+
+    return header + body + footer
 
 
 @tool
