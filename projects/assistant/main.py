@@ -1,5 +1,5 @@
 import sys
-from agent import run_agent
+from agent import chat
 
 def main():
     print("[🤖]: 你好呀！我是你的智能助手，你可以向我询问天气或者新闻～")
@@ -16,7 +16,7 @@ def main():
             break
 
         print(f"[🤖]: 思考中...请稍候")
-        msg = run_agent(line)
+        msg = chat(line)
         print(f"[🤖]: {msg}\n")
 
 if __name__ == "__main__":
