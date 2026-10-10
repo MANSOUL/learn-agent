@@ -1,5 +1,8 @@
 import sys
+from dotenv import load_dotenv
 from agent import chat
+
+load_dotenv()  # 加载 .env 文件中的环境变量
 
 def main():
     print("[🤖]: 你好呀！我是你的智能助手，你可以向我询问天气或者新闻～")
